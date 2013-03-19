@@ -15,8 +15,13 @@ int main() {
 			cin >> sample;
 			samples.append(sample);
 		}
-		if (samples.foundSignal(1000)) {
-			cout << "Signal" << endl;
+		try {
+			if (samples.foundSignal(1000)) {
+				cout << "Signal" << endl;
+			}
+		} catch (char * problem) {
+			cerr << "Problem with "  << problem << endl;
+			exit(1);
 		}
 	}
 

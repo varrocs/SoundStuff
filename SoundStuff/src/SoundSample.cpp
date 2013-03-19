@@ -25,7 +25,7 @@ complex toComplex(sample_t s) {
 }
 
 SoundSample::SoundSample(int rate) : rate(rate){
-	sampleFreq = rate / sampleLength;	// 48000 / 1024 = 46,875Hz. Normal A sound: 9,190600522 freqs away
+	sampleFreq = rate / sampleLength;	// 48000 / 1024 = 46,875Hz. Normal The block number of 1000hz is 21
 }
 
 void SoundSample::append(sample_t sample) {
@@ -66,7 +66,7 @@ bool SoundSample::foundSignal(int frequency) {
 	cout << "Strongest value: " << strongestValue << " @ " << strongest << endl;
 #endif
 
-	return strongest == freqToFind || strongest == sampleLength - freqToFind;
+	return strongest == freqToFind || strongest == (sampleLength - freqToFind);
 
 	return true;
 }
