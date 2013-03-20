@@ -6,9 +6,12 @@
 using namespace std;
 using namespace soundstuff;
 
+const int SAMPLE_RATE = 48000;
+const double SIGNAL_UNIT_LENGTH = 0.2;
+
 int main() {
 	sample_t sample;
-	SoundSample samples(48000);
+	SoundSample samples(SAMPLE_RATE);
 
 	vector<bool> signals;
 
@@ -24,8 +27,9 @@ int main() {
 			}*/
 
 			signals.push_back(isSignal);
-			MorseText morse(signals);
-			cout << morse.toString() << endl << string(20, '-') << endl;
+			MorseText morse(SAMPLE_RATE / SoundSample::sampleLength * SIGNAL_UNIT_LENGTH, signals);
+//			cout << morse.toString() << endl << string(40, '-') << endl;
+			cout << "\r" << morse.toString();
 
 		} catch (exception& e) {
 			cerr << "Problem with " << e.what() << endl;

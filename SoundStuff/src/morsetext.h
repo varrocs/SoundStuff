@@ -25,7 +25,7 @@ public:
     MorseText(const std::string& rawString);
 
     /// Interprets high/low values
-    MorseText(const std::vector<bool>& signalVector);
+    MorseText(int signalUnitLength, const std::vector<bool>& signalVector);
 
     /// Returns raw string representation
     std::string toString();
@@ -42,6 +42,8 @@ private:
     int signalUnitLength;	// In millisec
     static std::map<char, std::vector<Signal> > signalMap;
     void encode(char c, std::vector<Signal>& signal);
+
+    void reduceNoise(std::vector<bool>& signal);
 };
 
 

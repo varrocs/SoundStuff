@@ -2,6 +2,7 @@
 
 // For character check
 #include <ctype.h>
+#include <math.h>
 
 // For debugging
 #include <iostream>
@@ -55,6 +56,7 @@ MorseText::MorseText(const string& rawString) : rawText(rawString) {}
 
 
 class ParseState {
+	int signalUnitLength;
 	bool prevState;
 	int count;
 
@@ -64,11 +66,16 @@ public:
 
 	MorseText::Signal getLastSignal() {return lastSignal;}
 
-	ParseState() : prevState(false), count(0), lastSignal(MorseText::PAUSE_WORD) {}
+	ParseState(int signalUnitLength)
+		: signalUnitLength(signalUnitLength)
+		, prevState(false)
+		, count(0)
+		, lastSignal(MorseText::PAUSE_WORD) {}
 
 	bool feed(bool signal) {
 		if (signal xor prevState) { // The signal has changed
-			//cout << "Signal changed to "<< signal << ", count: " << count << endl;
+			count = round((double)count/(double)signalUnitLength);
+		//	cout << "Signal changed to "<< signal << ", count: " << count << endl;
 			if (prevState) {
 				if (count == 1 || count == 2) {
 					lastSignal = MorseText::SHORT;
@@ -94,19 +101,26 @@ public:
 	}
 };
 
-MorseText::MorseText(const std::vector<bool>& signalVector) {
+MorseText::MorseText(int signalUnitLength, const std::vector<bool>& signalVector)
+	: signalUnitLength(signalUnitLength)
+	{
+
+	vector<bool> copiedVector = signalVector;
+	reduceNoise(copiedVector);
+
 	// Interpret a letter
 	vector<Signal> letter;
-	ParseState state;
+	ParseState state(signalUnitLength);
 
-	for (auto s : signalVector) {
-		//cout << "Feeding: " << s << endl;
+	for (auto s : copiedVector) {
+		//cout << (s ? "+" : "-");
 		bool changed  = state.feed(s);
 		if (changed) {
 			letter.push_back(state.getLastSignal());
 			//cout << "last signal: " << state.getLastSignal() << endl;
 		}
 	}
+	//cout << endl;
 
 	// Find the next big pause
 	auto beginit = letter.begin();
@@ -225,5 +239,20 @@ void MorseText::encode(char c, vector<Signal>& signal) {
         signal.push_back(s);
     }
     signal.push_back(PAUSE_LETTER);
+}
+
+void MorseText::reduceNoise(vector<bool>& signals) {
+	if (signals.size() < 3) {
+		return;
+	}
+
+	auto it = signals.begin()+2;
+	while (it != signals.end()) {
+		if (*(it - 2) == *(it)) {
+			*(it - 1) = *it;
+		}
+		it++;
+	}
+
 }
 
