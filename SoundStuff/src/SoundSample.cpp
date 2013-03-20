@@ -25,7 +25,7 @@ complex toComplex(sample_t s) {
 }
 
 SoundSample::SoundSample(int rate) : rate(rate){
-	sampleFreq = rate / sampleLength;	// 48000 / 1024 = 46,875Hz. Normal The block number of 1000hz is 21
+	sampleFreq = rate / sampleLength;	// 48000 / 1024 = 46,875Hz. Normal The block number of 1000hz is 21, 440hz is block 9
 }
 
 void SoundSample::append(sample_t sample) {
@@ -41,7 +41,7 @@ bool SoundSample::foundSignal(int frequency) {
 	complex* temp = &complexVector[0];
 	bool ok = CFFT::Forward(temp, complexVector.size());
 	if (!ok) {
-		throw "fft";
+		throw exception();
 	}
 
 	// Find the strongest freq
