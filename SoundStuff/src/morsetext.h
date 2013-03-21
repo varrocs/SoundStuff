@@ -9,8 +9,6 @@ class MorseText
 {
 public:
 
-    static void initSignalMap();
-
     enum Signal {
         LONG,	//0, 3
         SHORT,	//1, 1

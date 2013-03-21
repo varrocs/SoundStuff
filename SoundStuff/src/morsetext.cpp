@@ -34,7 +34,7 @@ map<char, vector<MorseText::Signal> > MorseText::signalMap = {
     {'v', {SHORT, SHORT, SHORT, LONG} },
     {'w', {SHORT, LONG, LONG} },
     {'x', {LONG, SHORT, SHORT, LONG} },
-    {'x', {LONG, SHORT, LONG, LONG} },
+    {'y', {LONG, SHORT, LONG, LONG} },
     {'z', {LONG, LONG, SHORT, SHORT} },
 
     {'1', {SHORT, LONG, LONG, LONG, LONG} },
