@@ -32,7 +32,7 @@ int main(int argc, char**argv) {
 			samples.append(sample);
 		}
 		try {
-			bool isSignal = samples.foundSignal(440);
+			bool isSignal = samples.findFrequency(440);
 			/*if (isSignal) {
 				cout << "Signal" << endl;
 			}*/

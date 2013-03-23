@@ -18,7 +18,7 @@ public:
 	SoundSample(int rate);
 	static const int sampleLength;
 	void append(sample_t sample);
-	bool foundSignal(int frequency);
+	bool findFrequency(int frequency);
 private:
 	int rate;
 	double sampleFreq;

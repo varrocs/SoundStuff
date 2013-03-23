@@ -9,8 +9,8 @@
 #include <iostream>
 
 #include "SoundSample.h"
-#include "../lib/fft/complex.h"
-#include "../lib/fft/fft.h"
+#include <fft/complex.h>
+#include <fft/fft.h>
 
 using namespace std;
 using namespace soundstuff;
@@ -21,7 +21,7 @@ using namespace soundstuff;
 const int SoundSample::sampleLength = 1024;
 
 
-SoundSample::SoundSample(int rate) : rate(rate) {
+SoundSample::SoundSample(int rate) : rate(rate), samples(sampleLength) {
 	sampleFreq = rate / sampleLength;	// 48000 / 1024 = 46,875Hz. Normal The block number of 1000hz is 21, 440hz is block 9
 }
 
@@ -29,7 +29,7 @@ void SoundSample::append(sample_t sample) {
 	samples.push_back(sample);
 }
 
-bool SoundSample::foundSignal(int frequency) {
+bool SoundSample::findFrequency(int frequency) {
 	// Transform to complex*
 	vector<complex> complexVector;
 	complexVector.resize(samples.size()); // To fit the result of the transformation
