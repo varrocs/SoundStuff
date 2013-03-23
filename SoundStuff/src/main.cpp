@@ -6,16 +6,27 @@
 using namespace std;
 using namespace soundstuff;
 
-const int SAMPLE_RATE = 48000;
-const double SIGNAL_UNIT_LENGTH = 0.2;
+const int DEFAULT_SAMPLE_RATE = 48000;
+const int DEFAULT_TARGET_FREQ = 440;
+const int DEFAULT_SIGNAL_UNIT_LENGTH = 200;
 
-int main() {
+struct Config {
+	int sampeRate = DEFAULT_SAMPLE_RATE;
+	int targetFreq = 440;
+	int signalUnitLength = DEFAULT_SIGNAL_UNIT_LENGTH ;
+};
+
+Config parseConfig(int argc, char** argv);
+
+int main(int argc, char**argv) {
+	Config config = parseConfig(argc, argv);
+
 	sample_t sample;
-	SoundSample samples(SAMPLE_RATE);
+	SoundSample samples(config.sampeRate);
 
 	vector<bool> signals;
 
-	while (true) {
+	while (!cin.eof()) {
 		for (int i = 0; i < SoundSample::sampleLength; ++i) {
 			cin >> sample;
 			samples.append(sample);
@@ -27,7 +38,8 @@ int main() {
 			}*/
 
 			signals.push_back(isSignal);
-			MorseText morse(SAMPLE_RATE / SoundSample::sampleLength * SIGNAL_UNIT_LENGTH, signals);
+			double signalUnitLength = config.sampeRate / SoundSample::sampleLength * ((double) (config.signalUnitLength) / 1000.0);
+			MorseText morse(signalUnitLength, signals);
 //			cout << morse.toString() << endl << string(40, '-') << endl;
 			cout << "\r" << morse.toString();
 
@@ -39,3 +51,20 @@ int main() {
 
 	return 0;
 }
+
+Config parseConfig(int argc, char** argv) {
+
+	Config result;
+	if (argc > 1) {
+		result.sampeRate = atoi(argv[1]);
+	}
+	if (argc > 2) {
+		result.targetFreq = atoi(argv[2]);
+	}
+	if (argc > 3) {
+		result.signalUnitLength = atoi(argv[3]);
+	}
+
+	return result;
+}
+

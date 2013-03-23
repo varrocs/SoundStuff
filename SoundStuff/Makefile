@@ -1,6 +1,7 @@
 
-CXXFLAGS = -std=c++11
+CXXFLAGS = -std=c++11 -O3
 
+BINDIR=bin
 SRCDIR=src
 LIBDIR=lib/fft
 
@@ -10,8 +11,8 @@ HEADERS=morsetext.h SoundSample.h type.h $(LIBDIR)/fft.h $(LIBDIR)/complex.h
 $(SRCDIR)/%.o: %.cpp $(HEADERS)
 	$(CXX) -c $(CXXFLAGS) -o $@ &<
 
-SoundStuff: $(OBJS)
+$(BINDIR)/SoundStuff: $(OBJS)
 	$(CXX) -o $@ $^
 	
 clean:
-	rm $(OBJS) SoundStuff
+	rm $(OBJS) $(BINDIR)/SoundStuff

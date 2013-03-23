@@ -20,11 +20,8 @@ using namespace soundstuff;
 // Has to be the power of 2 because of fft
 const int SoundSample::sampleLength = 1024;
 
-complex toComplex(sample_t s) {
-	return s;
-}
 
-SoundSample::SoundSample(int rate) : rate(rate){
+SoundSample::SoundSample(int rate) : rate(rate) {
 	sampleFreq = rate / sampleLength;	// 48000 / 1024 = 46,875Hz. Normal The block number of 1000hz is 21, 440hz is block 9
 }
 
@@ -36,8 +33,15 @@ bool SoundSample::foundSignal(int frequency) {
 	// Transform to complex*
 	vector<complex> complexVector;
 	complexVector.resize(samples.size()); // To fit the result of the transformation
-	transform(samples.begin(), samples.end(), complexVector.begin(), toComplex);
+		transform(
+				samples.begin(),
+				samples.end(),
+				complexVector.begin(),
+				[](sample_t t){return complex(t);}
+				);
 	samples.clear();
+
+	// Hack to make it a regular pointer needed by the FFT lib
 	complex* temp = &complexVector[0];
 	bool ok = CFFT::Forward(temp, complexVector.size());
 	if (!ok) {

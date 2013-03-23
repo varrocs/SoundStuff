@@ -144,18 +144,11 @@ MorseText::MorseText(int signalUnitLength, const std::vector<bool>& signalVector
 				wordClear.push_back(s);
 			}
 		}
-		/*
-		cout << "WordClear: ";
-		for (auto s : wordClear) {
-			cout << s << " ";
-		}
-		cout << endl;
-		*/
+
 		bool found = false;
 		for (auto l : signalMap) {
 			if (l.second == wordClear) {
 				rawText.append(1, l.first);
-				//cout << "Found: "<< l.first << endl;
 				found = true;
 				break;
 			}
