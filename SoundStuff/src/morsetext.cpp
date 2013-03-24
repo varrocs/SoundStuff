@@ -101,11 +101,11 @@ public:
 	}
 };
 
-MorseText::MorseText(int signalUnitLength, const std::vector<bool>& signalVector)
+MorseText::MorseText(int signalUnitLength, const std::vector<int>& signalVector)
 	: signalUnitLength(signalUnitLength)
 	{
 
-	vector<bool> copiedVector = signalVector;
+	vector<int> copiedVector = signalVector;
 	reduceNoise(copiedVector);
 
 	// Interpret a letter
@@ -234,17 +234,31 @@ void MorseText::encode(char c, vector<Signal>& signal) {
     signal.push_back(PAUSE_LETTER);
 }
 
-void MorseText::reduceNoise(vector<bool>& signals) {
+void MorseText::reduceNoise(vector<int>& signals) {
 	if (signals.size() < 3) {
 		return;
 	}
 
-	auto it = signals.begin()+2;
+	/*auto it = signals.begin()+2;
 	while (it != signals.end()) {
 		if (*(it - 2) == *(it)) {
 			*(it - 1) = *it;
 		}
 		it++;
+	}*/
+
+	int signalsSize = signals.size();
+	int b0;
+	int b1 = signals[0];
+	int b2 = signals[1];
+
+	for (int i = 2; i < signalsSize; ++i) {
+		b0=b1;
+		b1=b2;
+		b2=signals[i];
+		if (b0 == b2) {
+			signals[i-1] = b1 = b0;
+		}
 	}
 
 }

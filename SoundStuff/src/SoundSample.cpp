@@ -21,7 +21,7 @@ using namespace soundstuff;
 const int SoundSample::sampleLength = 1024;
 
 
-SoundSample::SoundSample(int rate) : rate(rate), samples(sampleLength) {
+SoundSample::SoundSample(int rate) : rate(rate), samples() {
 	sampleFreq = rate / sampleLength;	// 48000 / 1024 = 46,875Hz. Normal The block number of 1000hz is 21, 440hz is block 9
 }
 

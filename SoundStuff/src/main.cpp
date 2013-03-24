@@ -24,7 +24,7 @@ int main(int argc, char**argv) {
 	sample_t sample;
 	SoundSample samples(config.sampeRate);
 
-	vector<bool> signals;
+	vector<int> signals; // Used as bool
 
 	while (!cin.eof()) {
 		for (int i = 0; i < SoundSample::sampleLength; ++i) {
@@ -40,7 +40,7 @@ int main(int argc, char**argv) {
 			signals.push_back(isSignal);
 			double signalUnitLength = config.sampeRate / SoundSample::sampleLength * ((double) (config.signalUnitLength) / 1000.0);
 			MorseText morse(signalUnitLength, signals);
-//			cout << morse.toString() << endl << string(40, '-') << endl;
+			//cout << morse.toString() << endl << string(40, '-') << endl;
 			cout << "\r" << morse.toString();
 
 		} catch (exception& e) {
