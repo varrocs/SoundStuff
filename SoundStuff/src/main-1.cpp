@@ -12,7 +12,7 @@ const int DEFAULT_SIGNAL_UNIT_LENGTH = 200;
 
 struct Config {
 	int sampeRate = DEFAULT_SAMPLE_RATE;
-	int targetFreq = 440;
+	int targetFreq = DEFAULT_TARGET_FREQ;
 	int signalUnitLength = DEFAULT_SIGNAL_UNIT_LENGTH ;
 };
 

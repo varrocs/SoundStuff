@@ -12,7 +12,7 @@ const int DEFAULT_SIGNAL_UNIT_LENGTH = 200;
 
 struct Config {
 	int sampeRate = DEFAULT_SAMPLE_RATE;
-	int targetFreq = 440;
+	int targetFreq = DEFAULT_TARGET_FREQ;
 	int signalUnitLength = DEFAULT_SIGNAL_UNIT_LENGTH ;
 };
 
@@ -32,7 +32,7 @@ int main(int argc, char**argv) {
 			samples.append(sample);
 		}
 		try {
-			bool isSignal = samples.findFrequency(440);
+			bool isSignal = samples.findFrequency(config.targetFreq);
 			/*if (isSignal) {
 				cout << "Signal" << endl;
 			}*/
@@ -48,6 +48,8 @@ int main(int argc, char**argv) {
 			exit(1);
 		}
 	}
+
+	cout << endl << endl;
 
 	return 0;
 }
